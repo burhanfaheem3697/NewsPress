@@ -4,7 +4,6 @@ from dataLoader import load_data
 from embedding_generator import generate_news_embeddings
 from user_profile_builder import build_user_profiles
 from recommender import recommend_news_for_user
-from tqdm import tqdm  # New import (for progress bar)
 
 # Paths for cached files
 news_embedding_cache = 'news_embeddings.pkl'
@@ -39,7 +38,7 @@ else:
         pickle.dump(user_vectors, f)
 
 # Step 4: Recommend news for a specific user
-user_id = "U91836"
+user_id = "U73700"
 recommendations = recommend_news_for_user(user_id, user_vectors, news_id_to_emb, top_n=10)
 
 # Step 5: Extract User's Categories (Fixed)
@@ -70,45 +69,8 @@ for news_id in recommended_news_ids:
 
 accuracy_percentage = (match_count / total_recommendations) * 100 if total_recommendations > 0 else 0
 
-
-all_user_ids = behaviors_df['user_id'].unique()
-
-total_accuracy = 0
-valid_users = 0
-
-for user_id in tqdm(all_user_ids, desc="Evaluating Users"):
-    if user_id not in user_vectors:0
-        continue
-
-    recommendations = recommend_news_for_user(user_id, user_vectors, news_id_to_emb, top_n=10)
-    if not recommendations:
-        continue
-
-    user_interactions = behaviors_df[behaviors_df['user_id'] == user_id]
-    interacted_news_ids = []
-    for history in user_interactions['history'].dropna():
-        interacted_news_ids.extend(history.split())
-
-    if not interacted_news_ids:
-        continue
-
-    user_categories = news_df[news_df['news_id'].isin(interacted_news_ids)]['category'].unique()
-    recommended_news_ids = recommendations
-    recommended_categories = news_df[news_df['news_id'].isin(recommended_news_ids)]['category'].unique()
-
-    match_count = 0
-    total_recommendations = len(recommended_news_ids)
-
-    for news_id in recommended_news_ids:
-        news_category = news_df[news_df['news_id'] == news_id]['category'].values
-        if len(news_category) > 0 and news_category[0] in user_categories:
-            match_count += 1
-
-    if total_recommendations > 0:
-        user_accuracy = (match_count / total_recommendations) * 100
-        total_accuracy += user_accuracy
-        valid_users += 1
-
-# Step 11: Final Average Accuracy
-average_accuracy = (total_accuracy / valid_users) if valid_users > 0 else 0
-print(f"\nOverall Average Recommendation Accuracy across {valid_users} users: {average_accuracy:.2f}%")
+# Step 9: Output the Results
+print(f"\nUser {user_id} has interacted with categories: {user_categories}")
+print(f"Recommended news categories: {recommended_categories}")
+print(f"Matching categories between user and recommendations: {matching_categories}")
+print(f"\nAccuracy of recommendation: {match_count}/{total_recommendations} ({accuracy_percentage:.2f}%)")
