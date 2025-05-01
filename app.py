@@ -4,8 +4,15 @@ from embedding_generator import generate_news_embeddings
 from user_profile_builder import build_user_profiles
 from recommender import recommend_news_for_user
 import pandas as pd
+import numpy as np
+import pickle
 
 app = Flask(__name__)
+
+with open('models/clicks_vs_accuracy.pkl', 'rb') as f:
+    cached_clicks_accuracy_data = pickle.load(f)
+
+print(f"✅ Loaded cached clicks vs accuracy for {len(cached_clicks_accuracy_data)} users.")
 
 # Load data and cache
 news_df, behaviors_df = load_data('D:/news_recommender/MINDsmall_train/news.tsv', 'D:/news_recommender/MINDsmall_train/behaviors.tsv')
@@ -62,6 +69,10 @@ def recommend():
         print(f"Error occurred: {e}")  # Print error for debugging
         return jsonify({'error': str(e)}), 500
 
+
+@app.route('/clicks_vs_accuracy')
+def clicks_vs_accuracy():
+    return jsonify(cached_clicks_accuracy_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
