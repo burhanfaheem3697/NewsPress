@@ -15,7 +15,7 @@ with open('models/clicks_vs_accuracy.pkl', 'rb') as f:
 print(f"✅ Loaded cached clicks vs accuracy for {len(cached_clicks_accuracy_data)} users.")
 
 # Load data and cache
-news_df, behaviors_df = load_data('D:/news_recommender/MINDsmall_train/news.tsv', 'D:/news_recommender/MINDsmall_train/behaviors.tsv')
+news_df, behaviors_df = load_data('./news.tsv', './behaviors.tsv')
 news_id_to_emb = generate_news_embeddings(news_df)
 user_vectors = build_user_profiles(behaviors_df, news_id_to_emb)
 
