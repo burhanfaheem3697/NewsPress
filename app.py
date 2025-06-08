@@ -75,4 +75,5 @@ def clicks_vs_accuracy():
     return jsonify(cached_clicks_accuracy_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 10000))  # default Render port
+    app.run(host='0.0.0.0', port=port)
