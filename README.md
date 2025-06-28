@@ -45,7 +45,7 @@ NewsPress is a BERT-powered news recommender system that suggests personalized a
 ## 📁 Setup
 
 ```bash
-git clone https://github.com/yourusername/neuropress.git
-cd neuropress
+git clone https://github.com/yourusername/NewsPress.git
+cd NewsPress
 pip install -r requirements.txt
 python app.py  # or use gunicorn for production
