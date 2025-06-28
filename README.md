@@ -2,6 +2,12 @@
 
 NewsPress is a BERT-powered news recommender system that suggests personalized articles based on users' reading history. Built on the Microsoft MIND dataset, it combines content-based filtering with deep NLP to deliver relevant, engaging news.
 
+static
+/Screenshot 2025-04-27 122637.png
+## 🖼️ User Interface Preview
+
+![App UI Screenshot](static/ui.png)
+
 ---
 
 ## 🚀 Features
